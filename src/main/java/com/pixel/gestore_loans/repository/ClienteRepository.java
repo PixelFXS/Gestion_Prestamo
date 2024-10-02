@@ -1,4 +1,7 @@
 package com.pixel.gestore_loans.repository;
 
-public class ClienteRepository {
+import com.pixel.gestore_loans.entity.Cliente;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ClienteRepository  extends JpaRepository<Cliente, Long> {
 }

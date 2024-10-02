@@ -9,8 +9,13 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "prestamo")
-
+@Entity
 public class Prestamo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+
     @ManyToOne
     @JoinColumn(name = "id_Cliente", nullable = false)
     private Cliente cliente;

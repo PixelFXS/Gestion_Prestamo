@@ -19,19 +19,19 @@ public class ClienteController {
         return clienteService.readAll();
     }
 
-    @PutMapping("/create")
+    @PostMapping("/create")
     public Cliente create(@RequestBody Cliente cliente){
         return clienteService.create(cliente);
     }
 
-    @PostMapping("/clienteUpdate")
+    @PutMapping("/clienteUpdate")
     public Cliente update(@RequestBody Cliente cliente){
         return clienteService.update(cliente);
     }
 
-    @PatchMapping("/anUpdate/{id_Cliente}")
-    public Cliente updatePartial(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
-        return clienteService.updatePartial(id, updates);
+    @PatchMapping(value = "/anUpdate/{id_Cliente}")
+    public Cliente updatePartial(@PathVariable Long id_Cliente, @RequestBody Map<String, Object> updates) {
+        return clienteService.updatePartial(id_Cliente, updates);
     }
 
     @DeleteMapping("/delete/{id_Cliente}")

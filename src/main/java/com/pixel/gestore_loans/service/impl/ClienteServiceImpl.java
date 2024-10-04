@@ -46,8 +46,8 @@ public class ClienteServiceImpl implements IClienteService {
 
 
     @Override
-    public Cliente updatePartial(Long id, Map<String, Object> updates) {
-        Cliente cliente = clienteRepository.findById(id)
+    public Cliente updatePartial(Long id_Cliente, Map<String, Object> updates) {
+        Cliente cliente = clienteRepository.findById(id_Cliente)
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
         updates.forEach((key, value) -> {
             Field field = ReflectionUtils.findField(Cliente.class, key);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/getCliente")
@@ -18,4 +19,23 @@ public class ClienteController {
         return clienteService.readAll();
     }
 
+    @PutMapping("/create")
+    public Cliente create(@RequestBody Cliente cliente){
+        return clienteService.create(cliente);
+    }
+
+    @PostMapping("/clienteUpdate")
+    public Cliente update(@RequestBody Cliente cliente){
+        return clienteService.update(cliente);
+    }
+
+    @PatchMapping("/anUpdate/{id_Cliente}")
+    public Cliente updatePartial(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+        return clienteService.updatePartial(id, updates);
+    }
+
+    @DeleteMapping("/delete/{id_Cliente}")
+    public String delete(@PathVariable("id_Cliente") Long id_Cliente) {
+        return clienteService.delete(id_Cliente);
+    }
 }

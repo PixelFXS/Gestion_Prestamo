@@ -13,7 +13,8 @@ import java.sql.Date;
 public class Prestamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id_Prestamo")
+    private Long id_Prestamo;
 
 
     @ManyToOne

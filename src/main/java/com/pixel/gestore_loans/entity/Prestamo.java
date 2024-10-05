@@ -27,8 +27,8 @@ public class Prestamo {
     @Column(name = "fecha")
     private Date fecha;
 
-    @Column(name = "estado_Prestamo")
-    private String estado_Prestamo;
+    @Column(name = "estatus")
+    private String estatus;
 
 
 }

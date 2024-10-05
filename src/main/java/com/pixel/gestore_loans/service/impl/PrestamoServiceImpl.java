@@ -1,6 +1,5 @@
 package com.pixel.gestore_loans.service.impl;
 
-import com.pixel.gestore_loans.entity.Cliente;
 import com.pixel.gestore_loans.entity.Prestamo;
 import com.pixel.gestore_loans.exception.ResourceNotFoundException;
 import com.pixel.gestore_loans.repository.ClienteRepository;
@@ -8,8 +7,7 @@ import com.pixel.gestore_loans.repository.PrestamoRepository;
 import com.pixel.gestore_loans.service.IPrestamoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-import java.lang.reflect.Field;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +24,13 @@ public class PrestamoServiceImpl implements IPrestamoService {
     }
 
     @Override
-    public Prestamo create(Prestamo prestamo) {
+    public Prestamo findById(Long id_Prestamo) {
+        return prestamoRepository.findById(id_Prestamo)
+                .orElseThrow(() -> new ResourceNotFoundException("Loan not found with id: " + id_Prestamo));
+    }
+
+    @Override
+    public Prestamo create(Prestamo prestamo){
         return prestamoRepository.save(prestamo);
     }
 
@@ -46,18 +50,20 @@ public class PrestamoServiceImpl implements IPrestamoService {
 
     @Override
     public Prestamo updatePartial(Long id_Prestamo, Map<String, Object> updates) {
-        Prestamo prestamo = prestamoRepository.findById(id_Prestamo)
-                .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
+        Prestamo prestamo = findById(id_Prestamo);
         updates.forEach((key, value) -> {
-            Field field = ReflectionUtils.findField(Cliente.class, key);
-            if (field != null) {
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, prestamo, value);
+            if (key.equals("estado_Prestamo")) {
+                prestamo.setEstatus((String) value);
             } else {
-                throw new RuntimeException("Mistake this field does not exist");
+                throw new RuntimeException("Mistake this field does not exist: " + key);
             }
         });
-
         return prestamoRepository.save(prestamo);
     }
+
+    @Override
+    public List<Prestamo> findByEstatus(String estatus){
+        return prestamoRepository.findByEstatus(estatus);
+    }
+
 }

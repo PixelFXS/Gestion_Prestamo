@@ -4,7 +4,6 @@ import com.pixel.gestore_loans.entity.Cliente;
 import com.pixel.gestore_loans.entity.Prestamo;
 import com.pixel.gestore_loans.exception.ResourceNotFoundException;
 import com.pixel.gestore_loans.repository.ClienteRepository;
-import com.pixel.gestore_loans.service.impl.ClienteServiceImpl;
 import com.pixel.gestore_loans.service.impl.PrestamoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

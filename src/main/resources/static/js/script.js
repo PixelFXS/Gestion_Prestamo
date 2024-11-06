@@ -11,10 +11,12 @@ document.getElementById("clientForm").addEventListener("submit", function(event)
     crearCliente();
 });
 
+
 document.getElementById("loanForm").addEventListener("submit", function(event) {
     event.preventDefault();
     crearPrestamo();
 });
+
 
 function cargarClientes() {
     fetch(`${apiUrlCliente}/all`)
@@ -28,15 +30,8 @@ function cargarClientes() {
         .catch(error => console.error("Error al cargar clientes:", error));
 }
 
-function loadPrestamos() {
+function cargarPrestamos() {
     fetch(`${apiUrlPrestamo}/all`)
-        .then(response => response.json())
-        .then(data => mostrarPrestamos(data))
-        .catch(error => console.error("Error al cargar préstamos:", error));
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    fetch('http://localhost:8080/api/getPrestamo/all')
         .then(response => response.json())
         .then(data => {
             const prestamosTableBody = document.querySelector('table tbody');
@@ -50,14 +45,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     <td>${prestamo.estatus}</td>
                     <td>${prestamo.fecha}</td>
                     <td>
-                        <button class="btn btn-danger btn-sm" onclick="deletePrestamo(${prestamo.id_Prestamo})">Eliminar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarPrestamo(${prestamo.id_Prestamo})">Eliminar</button>
                     </td>
                 `;
                 prestamosTableBody.appendChild(row);
             });
         })
-        .catch(error => console.error('Error al cargar los préstamos:', error));
-});
+        .catch(error => console.error("Error al cargar préstamos:", error));
+}
 
 function crearCliente() {
     const nombreCliente = document.getElementById("nombreCliente").value;
@@ -75,6 +70,7 @@ function crearCliente() {
     })
     .catch(error => console.error("Error al crear cliente:", error));
 }
+
 
 function crearPrestamo() {
     const clienteId = document.getElementById("clienteId").value;
@@ -102,8 +98,17 @@ function eliminarPrestamo(id_Prestamo) {
         method: "DELETE"
     })
     .then(response => {
-        alert("Préstamo eliminado con éxito!");
-        cargarPrestamos();
+        if (response.ok) {
+            alert("Préstamo eliminado con éxito!");
+            cargarPrestamos();
+        } else {
+            return response.text().then(text => {
+                throw new Error(text || "Error desconocido al eliminar préstamo");
+            });
+        }
     })
-    .catch(error => console.error("Error al eliminar préstamo:", error));
+    .catch(error => {
+        console.error("Error al eliminar préstamo:", error);
+        alert("Hubo un problema al eliminar el préstamo.");
+    });
 }
